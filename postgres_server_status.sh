@@ -6,5 +6,8 @@
 # Distributed under terms of the LICENCE.txt license.
 #
 
-
-nmap -p 5432 $(docker-machine status dev | grep Running > /dev/null && docker-machine ip dev || echo localhost) | grep 5432 | awk '{print $2}'
+if [ $DOCKER_MACHINE_NAME ]; then
+    nmap -p 5432 $(docker-machine status $DOCKER_MACHINE_NAME | grep Running > /dev/null && docker-machine ip dev || echo localhost) | grep 5432 | awk '{print $2}'
+else
+    echo 'Need to set DOCKER_MACHINE_NAME'
+fi
